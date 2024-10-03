@@ -1,4 +1,3 @@
-<!-- Updated Employer Top-Up Account Page with Transaction Success and Balance Update Feature -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,10 +7,10 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #F0F8FF; /* Updated background color */
+            background-color: #F0F8FF;
             margin: 0;
             padding: 0;
-            color: #333; /* Text color */
+            color: #333;
         }
         .container {
             width: 80%;
@@ -19,7 +18,7 @@
             padding: 20px;
         }
         .header {
-            background-color: #005B96; /* Horizontal Dashboard */
+            background-color: #005B96;
             color: #fff;
             padding: 15px 20px;
             display: flex;
@@ -33,11 +32,11 @@
         .title {
             margin-top: 20px;
             text-align: center;
-            color: #004080; /* Adjusted title color */
+            color: #004080;
         }
         .balance-overview {
             text-align: center;
-            background-color: #E6F7FF; /* Lighter blue background */
+            background-color: #E6F7FF;
             padding: 10px;
             margin: 10px 0;
             font-size: 18px;
@@ -64,7 +63,7 @@
             border-radius: 4px;
         }
         .btn {
-            background-color: #28A745; /* Green color for the employer's button */
+            background-color: #28A745;
             color: white;
             padding: 10px 20px;
             border: none;
@@ -74,7 +73,7 @@
             text-align: center;
         }
         .btn:hover {
-            background-color: #218838; /* Darker green for hover */
+            background-color: #218838;
         }
         .footer {
             text-align: center;
@@ -83,7 +82,6 @@
             margin-top: 20px;
             border-top: 1px solid #D9D9D9;
         }
-        /* Styles for the success page */
         #success-page {
             display: none;
             text-align: center;
@@ -98,12 +96,46 @@
         }
         .tick {
             font-size: 50px;
-            color: #28A745; /* Green tick color */
+            color: #28A745;
+        }
+        /* Transactions Section */
+        .transaction-list {
+            display: none;
+            margin-top: 20px;
+            border: 1px solid #D9D9D9;
+            border-radius: 4px;
+            padding: 10px;
+            background-color: #FFFFFF;
+        }
+        .transaction-item {
+            margin: 5px 0;
+            padding: 10px;
+            border: 1px solid #D9D9D9;
+            border-radius: 4px;
+        }
+        .credit {
+            background-color: #E6F4EA;
+            color: #28A745;
+        }
+        .debit {
+            background-color: #FDEAEA;
+            color: #DC3545;
+        }
+        .view-transactions-btn {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .view-transactions-btn:hover {
+            background-color: #0056b3;
         }
     </style>
     <script>
-        // Initial balance
-        let currentBalance = 50000; // Starting balance: ₹50,000
+        let currentBalance = 2000000;
 
         function displayBalance() {
             document.getElementById('balance-overview').innerText = `Current Balance: ₹${currentBalance.toLocaleString()}`;
@@ -112,41 +144,57 @@
         function processPayment() {
             const amount = parseFloat(document.getElementById('amount').value);
 
-            // Check if amount is valid
             if (isNaN(amount) || amount <= 0) {
                 alert('Please enter a valid amount to top-up.');
                 return;
             }
 
-            // Update the current balance
             currentBalance += amount;
             displayBalance();
 
-            // Hide the payment details form
             document.getElementById('payment-section').style.display = 'none';
-            
-            // Show the success page
             document.getElementById('success-page').style.display = 'block';
             document.getElementById('success-message').innerText = `₹${amount.toLocaleString()} has been successfully added to your account.`;
         }
 
-        // Initialize balance display on page load
-        window.onload = displayBalance;
+        window.onload = function() {
+            displayBalance();
+        };
+
+        function viewTransactions() {
+            const transactions = [
+                { date: '2024-06-15', amount: 100000, type: 'credit', reason: 'Top-up for employer account' },
+                { date: '2024-06-30', amount: 50000, type: 'debit', reason: 'Used for paying salaries' },
+                { date: '2024-07-10', amount: 150000, type: 'credit', reason: 'Top-up for employer account' },
+                { date: '2024-07-25', amount: 70000, type: 'debit', reason: 'Used for paying salaries' },
+                { date: '2024-08-05', amount: 120000, type: 'credit', reason: 'Top-up for employer account' },
+                { date: '2024-08-20', amount: 60000, type: 'debit', reason: 'Used for miscellaneous expenses' }
+            ];
+
+            const transactionList = document.getElementById('transaction-list');
+            transactionList.innerHTML = ''; // Clear existing transactions
+
+            transactions.forEach(transaction => {
+                const div = document.createElement('div');
+                div.classList.add('transaction-item', transaction.type);
+                div.innerHTML = `${transaction.date}: ₹${transaction.amount.toLocaleString()} - ${transaction.reason}`;
+                transactionList.appendChild(div);
+            });
+
+            transactionList.style.display = 'block';
+        }
     </script>
 </head>
 <body>
     <div class="header">
         <div>Earnease</div>
         <div>
-            <a href="#">Home</a>
             <a href="#">Transactions</a>
-            <a href="#">Account Settings</a>
-            <a href="#">Help</a>
         </div>
     </div>
     <div class="container">
         <h2 class="title">Add Funds to Your Account</h2>
-        <div class="balance-overview" id="balance-overview">Current Balance: ₹50,000</div>
+        <div class="balance-overview" id="balance-overview">Current Balance: ₹20,00,000</div>
         <div class="payment-details" id="payment-section">
             <div class="input-group">
                 <label for="amount">Amount to Top-Up:</label>
@@ -164,10 +212,6 @@
                     <option>Debit Card</option>
                 </select>
             </div>
-            <div class="input-group">
-                <label for="promo-code">Promo Code (Optional):</label>
-                <input type="text" id="promo-code" placeholder="Enter promo code">
-            </div>
             <button class="btn" onclick="processPayment()">Add Funds</button>
         </div>
         <div id="success-page">
@@ -175,6 +219,14 @@
             <h3>Transaction Successful!</h3>
             <p id="success-message"></p>
             <button class="btn" onclick="window.location.reload()">Back to Dashboard</button>
+        </div>
+
+        <!-- View Transactions Button -->
+        <div class="view-transactions-btn" onclick="viewTransactions()">View Previous Transactions</div>
+
+        <!-- Transactions Section -->
+        <div class="transaction-list" id="transaction-list">
+            <!-- Transactions will be populated here -->
         </div>
     </div>
     <div class="footer">
